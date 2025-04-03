@@ -2,6 +2,12 @@ const express = require("express");
 const cors = require("cors");
 const { createClient } = require('@supabase/supabase-js');
 
+// Verifica si las variables de entorno están disponibles
+if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY) {
+  console.error("❌ ERROR: Variables de entorno de Supabase no están definidas.");
+  process.exit(1); // Termina la ejecución si no están definidas
+}
+
 // Crear cliente de Supabase
 const supabase = createClient(
   process.env.SUPABASE_URL, 
@@ -22,25 +28,23 @@ app.get("/", (req, res) => {
 // ✅ Ruta correcta para obtener usuarios desde Supabase
 app.get("/api/usuarios", async (req, res) => {
   try {
-    // Hacer una consulta a la tabla usuarios de Supabase
     const { data, error } = await supabase
       .from("usuarios") // Reemplaza "usuarios" con el nombre de tu tabla
-      .select("*"); // Selecciona todas las columnas
+      .select("*");
 
     if (error) {
-      console.log("Error al obtener usuarios:", error.message);
+      console.error("❌ Error al obtener usuarios:", error.message);
       return res.status(500).json({ mensaje: "Error al obtener usuarios" });
     }
 
-    // Si todo va bien, devuelve los datos
     res.json(data);
   } catch (error) {
-    console.log("Error en el servidor:", error);
+    console.error("❌ Error en el servidor:", error);
     res.status(500).json({ mensaje: "Error en el servidor" });
   }
 });
 
 // Escuchar el servidor
 app.listen(PORT, () => {
-  console.log(`Servidor en ejecución en el puerto ${PORT}`);
+  console.log(`✅ Servidor en ejecución en el puerto ${PORT}`);
 });
