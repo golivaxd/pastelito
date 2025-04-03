@@ -1,8 +1,9 @@
 const express = require("express");
 const cors = require("cors");
-const { createClient } = require('@supabase/supabase-js');
+const { createClient } = require("@supabase/supabase-js");
+require("dotenv").config(); // Cargar variables de entorno desde .env
 
-// Verifica si las variables de entorno están disponibles
+// Verificar si las variables de entorno están disponibles
 if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY) {
   console.error("❌ ERROR: Variables de entorno de Supabase no están definidas.");
   process.exit(1); // Termina la ejecución si no están definidas
@@ -10,27 +11,31 @@ if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY) {
 
 // Crear cliente de Supabase
 const supabase = createClient(
-  process.env.SUPABASE_URL, 
+  process.env.SUPABASE_URL,
   process.env.SUPABASE_ANON_KEY
 );
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
 app.use(express.json()); // Para manejar JSON
+
+// Configuración de CORS
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || "*", // Permitir solicitudes desde el frontend en Vercel
+  credentials: true, // Permitir cookies y autenticación si es necesario
+};
+app.use(cors(corsOptions));
 
 // Ruta de prueba para verificar que el servidor responde
 app.get("/", (req, res) => {
   res.send("¡Servidor funcionando con Supabase!");
 });
 
-// ✅ Ruta correcta para obtener usuarios desde Supabase
+// ✅ Ruta para obtener usuarios desde Supabase
 app.get("/api/usuarios", async (req, res) => {
   try {
-    const { data, error } = await supabase
-      .from("usuarios") // Reemplaza "usuarios" con el nombre de tu tabla
-      .select("*");
+    const { data, error } = await supabase.from("usuarios").select("*");
 
     if (error) {
       console.error("❌ Error al obtener usuarios:", error.message);
