@@ -1,32 +1,37 @@
 import express from "express";
 import cors from "cors";
+import { createClient } from "@supabase/supabase-js";
+import dotenv from "dotenv";
+
+dotenv.config(); // Carga variables de entorno
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors());
-app.use(express.json()); // Para que pueda manejar JSON
+app.use(express.json());
 
-// Ruta de prueba para verificar que el servidor responde
-app.get("/", (req, res) => {
-    res.send("¡Servidor funcionando en Render creoooo!");
-});
+// 🔥 Conexión a Supabase
+const supabase = createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_ANON_KEY
+);
 
-// ✅ Ruta correcta para obtener usuarios
+// ✅ Ruta para obtener usuarios desde Supabase
 app.get("/api/usuarios", async (req, res) => {
     try {
-        const usuarios = [
-            { id: 1, nombre: "Usuario 1" },
-            { id: 2, nombre: "Usuario 2" },
-        ]; // Simula una respuesta
-        res.json(usuarios);
+        const { data, error } = await supabase.from("usuarios").select("*");
+
+        if (error) throw error;
+        res.json(data);
     } catch (error) {
-        res.status(500).json({ mensaje: "Error al obtener usuarios" });
+        res.status(500).json({ mensaje: "Error al obtener usuarios", error });
     }
 });
 
-// Escuchar el servidor
+// Iniciar el servidor
 app.listen(PORT, () => {
     console.log(`Servidor en ejecución en el puerto ${PORT}`);
 });
+
 
