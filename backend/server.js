@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.send('¡Servidor funcionando en Render!');
+    res.send('¡Servidor funcionando en Render creoooo!');
 });
 
 const PORT = process.env.PORT || 5000;
