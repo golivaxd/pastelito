@@ -1,3 +1,6 @@
+import dotenv from "dotenv";  // Importa dotenv
+dotenv.config(); // Carga las variables de entorno
+
 const express = require("express");
 const cors = require("cors");
 const { createClient } = require("@supabase/supabase-js");
