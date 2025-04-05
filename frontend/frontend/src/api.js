@@ -1,6 +1,6 @@
 // src/api.js
 
-const API_URL = "https://pastelito.onrender.com/api/usuarios";
+const API_URL = "https://pastelito.onrender.com";
 
 export async function obtenerUsuarios() {
   try {
