@@ -1,5 +1,5 @@
-// frontend/src/api.js
-const API_URL = "https://pastelito.onrender.com"; // Tu backend de Render
+// 👇 Usa la URL completa del backend en Render
+const API_URL = "https://pastelito.onrender.com";
 
 export const fetchUsuarios = async () => {
   try {
