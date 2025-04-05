@@ -48,7 +48,10 @@ const App = () => {
           </tbody>
         </table>
       )}
+      <h1>NOMAMES YA LA PUDE CONECTAR, SOY UN PENDEJO XD</h1>
+      <p>Tamopastelito</p>
     </div>
+    
   );
 };
 
