@@ -18,21 +18,21 @@ const supabase = createClient(
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(express.json()); // Para manejar JSON
+app.use(express.json());
 
 // Configuración de CORS
 const corsOptions = {
   origin: process.env.FRONTEND_URL || "*", // Permitir solicitudes desde el frontend en Vercel
-  credentials: true, // Permitir cookies y autenticación si es necesario
+  credentials: true,
 };
 app.use(cors(corsOptions));
 
-// Ruta de prueba para verificar que el servidor responde
+// Ruta de prueba
 app.get("/", (req, res) => {
   res.send("¡Servidor funcionando con Supabase!");
 });
 
-// ✅ Ruta para obtener usuarios desde Supabase
+// ✅ Ruta para obtener usuarios con impresión en consola
 app.get("/api/usuarios", async (req, res) => {
   try {
     const { data, error } = await supabase.from("usuarios").select("*");
@@ -42,6 +42,9 @@ app.get("/api/usuarios", async (req, res) => {
       return res.status(500).json({ mensaje: "Error al obtener usuarios" });
     }
 
+    console.log("✅ Datos obtenidos de Supabase:");
+    console.table(data); // Imprime los datos en forma de tabla en la consola
+
     res.json(data);
   } catch (error) {
     console.error("❌ Error en el servidor:", error);
@@ -49,7 +52,7 @@ app.get("/api/usuarios", async (req, res) => {
   }
 });
 
-// Escuchar el servidor
+// Iniciar servidor
 app.listen(PORT, () => {
   console.log(`✅ Servidor en ejecución en el puerto ${PORT}`);
 });
