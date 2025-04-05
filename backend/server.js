@@ -22,7 +22,10 @@ app.use(express.json());
 
 // Configuración de CORS
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || "*", // Permitir solicitudes desde el frontend en Vercel
+  origin: [
+    "http://localhost:3000", // Permitir peticiones desde localhost para desarrollo
+    process.env.FRONTEND_URL || "*", // Para Vercel u otros orígenes en producción
+  ],
   credentials: true,
 };
 app.use(cors(corsOptions));
