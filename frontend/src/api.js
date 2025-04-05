@@ -1,18 +1,17 @@
-// 👇 Usa la URL completa del backend en Render
-const API_URL = "https://pastelito.onrender.com";
+// src/api.js
 
-export const fetchUsuarios = async () => {
+const API_URL = "https://pastelito.onrender.com"; // URL de tu backend en Render
+
+export async function obtenerUsuarios() {
   try {
-    const response = await fetch(`${API_URL}/api/usuarios`);
-    if (!response.ok) {
-      throw new Error("Error al obtener los usuarios");
+    const res = await fetch(`${API_URL}/api/usuarios`);
+    if (!res.ok) {
+      throw new Error("Error al obtener usuarios");
     }
-    const data = await response.json();
+    const data = await res.json();
     return data;
   } catch (error) {
-    console.error("❌ Error en fetchUsuarios:", error);
+    console.error("❌ Error en la API:", error);
     return [];
   }
-};
-
-
+}
