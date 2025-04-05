@@ -22,22 +22,17 @@ app.use(express.json());
 
 // Configuración de CORS
 const corsOptions = {
-    origin: [
-        "http://localhost:3000", // Permitir peticiones desde localhost
-        "https://pastelito-git-main-golivas-projects.vercel.app" // Permitir peticiones desde Vercel
-      ],
-      
-    credentials: true,
-  };
-  app.use(cors(corsOptions));
-  
+  origin: ["https://pastelito-iota.vercel.app", "http://localhost:3000"], // Permitir solicitudes desde Vercel y local
+  credentials: true,  // Si necesitas cookies o headers de autenticación
+};
+app.use(cors(corsOptions));
 
 // Ruta de prueba
 app.get("/", (req, res) => {
   res.send("¡Servidor funcionando con Supabase!");
 });
 
-// ✅ Ruta para obtener usuarios con impresión en consola
+// Ruta para obtener usuarios
 app.get("/api/usuarios", async (req, res) => {
   try {
     const { data, error } = await supabase.from("usuarios").select("*");

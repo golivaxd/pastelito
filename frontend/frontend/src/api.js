@@ -1,14 +1,13 @@
-// src/api.js
-
-const API_URL = "https://pastelito.onrender.com";
-
-export async function obtenerUsuarios() {
-  try {
-    const res = await fetch(`${API_URL}/api/usuarios`);
-    if (!res.ok) throw new Error("Error al obtener usuarios");
-    return await res.json();
-  } catch (error) {
-    console.error("❌ Error en la API:", error);
-    return [];
-  }
-}
+export const obtenerUsuarios = async () => {
+    try {
+      const response = await fetch('https://pastelito.onrender.com/api/usuarios');
+      if (!response.ok) {
+        throw new Error("Error al obtener los usuarios");
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error en la API:", error);
+    }
+  };
+  

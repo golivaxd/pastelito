@@ -1,45 +1,33 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { obtenerUsuarios } from "./api";
 
-function App() {
+const App = () => {
   const [usuarios, setUsuarios] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    obtenerUsuarios().then(setUsuarios);
+    const fetchUsuarios = async () => {
+      const data = await obtenerUsuarios();
+      setUsuarios(data);
+      setLoading(false);
+    };
+    fetchUsuarios();
   }, []);
 
   return (
-    <div style={{ padding: "2rem" }}>
+    <div>
       <h1>Lista de Usuarios</h1>
-
-      {usuarios.length === 0 ? (
+      {loading ? (
         <p>Cargando usuarios...</p>
       ) : (
-        <table border="1" cellPadding="10">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Correo</th>
-              <th>Ubicación</th>
-              <th>Tipo</th>
-            </tr>
-          </thead>
-          <tbody>
-            {usuarios.map((u) => (
-              <tr key={u.id_usuario}>
-                <td>{u.id_usuario}</td>
-                <td>{u.nombre_usuario}</td>
-                <td>{u.correo_electronico}</td>
-                <td>{u.ubicacion}</td>
-                <td>{u.tipo_usuario}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <ul>
+          {usuarios.map((usuario, index) => (
+            <li key={index}>{usuario.nombre}</li> // Cambia "nombre" según tu modelo de datos
+          ))}
+        </ul>
       )}
     </div>
   );
-}
+};
 
 export default App;
