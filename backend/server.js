@@ -22,13 +22,15 @@ app.use(express.json());
 
 // Configuración de CORS
 const corsOptions = {
-  origin: [
-    "http://localhost:3000", // Permitir peticiones desde localhost para desarrollo
-    process.env.FRONTEND_URL || "*", // Para Vercel u otros orígenes en producción
-  ],
-  credentials: true,
-};
-app.use(cors(corsOptions));
+    origin: [
+        "http://localhost:3000", // Permitir peticiones desde localhost
+        "https://pastelito-git-main-golivas-projects.vercel.app" // Permitir peticiones desde Vercel
+      ],
+      
+    credentials: true,
+  };
+  app.use(cors(corsOptions));
+  
 
 // Ruta de prueba
 app.get("/", (req, res) => {
