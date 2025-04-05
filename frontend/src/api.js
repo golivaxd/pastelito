@@ -1,15 +1,18 @@
-const API_URL = process.env.REACT_APP_API_URL || "https://pastelito.onrender.com"; // URL del backend en Render
+// frontend/src/api.js
+const API_URL = "https://pastelito.onrender.com"; // Tu backend de Render
 
-// ✅ Función para obtener usuarios desde la API
-export async function obtenerUsuarios() {
+export const fetchUsuarios = async () => {
   try {
-    const response = await fetch(`${API_URL}/api/usuarios`); // Llama a la API en Render
-    if (!response.ok) throw new Error("Error en la API");
-    return await response.json();
+    const response = await fetch(`${API_URL}/api/usuarios`);
+    if (!response.ok) {
+      throw new Error("Error al obtener los usuarios");
+    }
+    const data = await response.json();
+    return data;
   } catch (error) {
-    console.error("❌ Error obteniendo usuarios:", error);
+    console.error("❌ Error en fetchUsuarios:", error);
     return [];
   }
-}
+};
 
 
