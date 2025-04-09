@@ -102,7 +102,7 @@ const App = () => {
       )}
 
       <h1 style={{ marginTop: "3rem" }}>NOMAMES YA LA PUDE CONECTAR, SOY UN PENDEJO XD</h1>
-      <p>Tamopastelito</p>
+      <p>Tamopastelito000000000000000</p>
     </div>
   );
 };
