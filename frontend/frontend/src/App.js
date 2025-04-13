@@ -1,43 +1,57 @@
-// src/App.js
-import React, { useState } from "react";
-import { login } from "./api";
+import React, { useState, useEffect } from "react";
+import { obtenerUsuarios } from "./api";
 
 const App = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [usuarios, setUsuarios] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const data = await login(email, password);
-      alert("✅ Bienvenido " + data.usuario.email);
-      console.log("Token:", data.token); // puedes guardarlo en localStorage si quieres
-    } catch (error) {
-      alert("❌ Error: " + error.message);
-    }
-  };
+  useEffect(() => {
+    const fetchUsuarios = async () => {
+      const data = await obtenerUsuarios(); // Llamada a la API
+      if (data) {  // Verifica si los datos están presentes
+        setUsuarios(data); // Establece los usuarios en el estado
+        setLoading(false);  // Cambia el estado de carga
+      } else {
+        console.error("No se pudieron obtener los usuarios.");
+      }
+    };
+
+    fetchUsuarios();
+  }, []);
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h2>Iniciar Sesión</h2>
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="Correo electrónico"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        /><br />
-        <input
-          type="password"
-          placeholder="Contraseña"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        /><br />
-        <button type="submit">Login</button>
-      </form>
+    <div>
+      <h1>Lista de Usuarios</h1>
+      {loading ? (
+        <p>Cargando usuarios...</p>
+      ) : (
+        <table border="1" cellPadding="10">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Correo</th>
+              <th>Ubicación</th>
+              <th>Tipo</th>
+            </tr>
+          </thead>
+          <tbody>
+            {usuarios.map((u) => (
+              <tr key={u.id_usuario}>
+                <td>{u.id_usuario}</td>
+                <td>{u.nombre_usuario}</td>
+                <td>{u.correo_electronico}</td>
+                <td>{u.ubicacion}</td>
+                <td>{u.tipo_usuario}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+      <h1>NOMAMES YA LA PUDE CONECTAR, SOY UN PENDEJO XD</h1>
+      <p>Tamopastelito</p>
     </div>
+    
   );
 };
 

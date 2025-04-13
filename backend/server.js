@@ -3,12 +3,6 @@ const cors = require("cors");
 const { createClient } = require("@supabase/supabase-js");
 require("dotenv").config(); // Cargar variables de entorno desde .env
 
-// backend/server.js
-
-import authRoutes from "./routes/auth.js"; // importa la ruta
-app.use("/api", authRoutes); // usa la ruta
-
-
 // Verificar si las variables de entorno están disponibles
 if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY) {
   console.error("❌ ERROR: Variables de entorno de Supabase no están definidas.");
